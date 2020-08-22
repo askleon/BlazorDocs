@@ -1,0 +1,13 @@
+<div class="mt-4">
+    <h2 class="mt-3">Documents</h2>
+    <ul class="list-group">
+        @foreach (var item in Docs)
+        {
+            <li class="list-group-item">@item.Title</li>
+        }
+    </ul>
+</div>
+
+@code {
+    [Parameter] public List<Doc> Docs { get; set; }
+}

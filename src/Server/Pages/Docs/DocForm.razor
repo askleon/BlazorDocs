@@ -1,0 +1,29 @@
+@inject Service<Doc> DocService
+
+<EditForm Model="newDoc" OnValidSubmit="HandleSubmit">
+   
+    <div class="form-group">
+        <label>Title</label>
+        <input @bind="newDoc.Title" class="form-control"/>
+    </div>
+    
+    <div class="form-group">
+        <label>Content</label>
+        <textarea @bind="newDoc.Content" class="form-control"/>
+    </div>
+
+    <button type="submit">Submit</button>
+
+</EditForm>
+
+@code {
+
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+    private Doc newDoc = new Doc();
+
+    private async void HandleSubmit()
+    {
+        await DocService.Add(newDoc);
+        newDoc = new Doc();
+    }
+}
