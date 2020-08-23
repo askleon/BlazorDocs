@@ -1,17 +1,5 @@
 ﻿@page "/"
-@using Server.Pages.Docs
-@inject Service<Doc> DocService
 
-<DocForm OnValidSubmit="@(() => StateHasChanged())"/>
-
-<DocList Docs="docs"/>
-
-@code {
-
-    private List<Doc> docs = new List<Doc>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        docs = (await DocService.GetAll());
-    }
-}
+<h1>
+    Welcome to BlazorDocs!
+</h1>
