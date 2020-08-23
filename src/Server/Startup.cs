@@ -32,10 +32,14 @@ namespace Server
 
             // Database
             services.AddDbContext<DocsContext>(options =>
-                options.UseSqlite(Configuration["ConnectionStrings:Default"]));
+                options
+                    .UseSqlite(Configuration["ConnectionStrings:Default"])
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
+                    ServiceLifetime.Transient);
 
             // Data services
             services.AddTransient(typeof(Service<>));
+            services.AddTransient<DocService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
