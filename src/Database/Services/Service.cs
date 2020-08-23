@@ -7,7 +7,7 @@ namespace BlazorDocs.Database
     public class Service<T>
         where T : class, IIdentify, new()
     {
-        private readonly DocsContext context;
+        protected readonly DocsContext context;
 
         public Service(DocsContext context) => this.context = context;
 

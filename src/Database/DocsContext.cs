@@ -18,5 +18,13 @@ namespace BlazorDocs.Database
         {
             optionsBuilder.UseLoggerFactory(ConsoleLogger);
         }
+    
+        protected override void OnModelCreating(ModelBuilder model)
+        {
+            model
+                .Entity<Doc>()
+                .HasIndex(m => m.Url)
+                .IsUnique();
+        }
     }
 }
