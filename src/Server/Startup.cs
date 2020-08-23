@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BlazorDocs.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -40,6 +41,12 @@ namespace Server
             // Data services
             services.AddTransient(typeof(Service<>));
             services.AddTransient<DocService>();
+
+            // Automapper
+            services.AddAutoMapper(c =>
+            {
+                c.AddProfile(typeof(DocProfile));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
