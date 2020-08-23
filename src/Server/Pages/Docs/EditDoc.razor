@@ -1,0 +1,15 @@
+@page "/docs/edit/{Url}"
+@inject DocService DocService
+@inject IMapper Mapper
+
+<DocForm Value="doc"/>
+
+@code {
+    [Parameter] public string Url { get; set; }
+    private DocDto doc;
+
+    protected override async Task OnInitializedAsync()
+    {
+        doc = Mapper.Map<DocDto>(await DocService.Get(Url));
+    }
+}

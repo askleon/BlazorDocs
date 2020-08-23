@@ -1,8 +1,11 @@
-@inject Service<Doc> DocService
 @using Markdig
+@inject Service<Doc> DocService
+@inject IMapper Mapper
+@inject NavigationManager Nav
 
 <EditForm Model="newDoc" OnValidSubmit="HandleSubmit">
-    
+    <DataAnnotationsValidator />
+
     <div class="row">
         <div class="col-6">
             <h1>New document</h1>
@@ -17,6 +20,15 @@
         <div class="form-group col-6">
             <label>Title</label>
             <input @bind="newDoc.Title" class="form-control"/>
+            <ValidationMessage For="@(() => newDoc.Title)" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-6">
+            <label>Url</label>
+            <input @bind="newDoc.Url" class="form-control"/>
+            <ValidationMessage For="@(() => newDoc.Url)" />
         </div>
     </div>
 
@@ -24,6 +36,7 @@
         <div class="form-group col-6">
             <label>Content</label>
             <textarea @bind="newDoc.Content" class="form-control"/>
+            <ValidationMessage For="@(() => newDoc.Content)" />
         </div>
 
         <div class="col-6">
@@ -38,15 +51,29 @@
 </EditForm>
 
 @code {
-
+    [Parameter] public DocDto Value { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
-    private Doc newDoc = new Doc();
+    private DocDto newDoc = new DocDto();
+    private bool isNew = true;
 
     private string Preview => Markdown.ToHtml(newDoc.Content ?? "");
 
+    protected override void OnInitialized()
+    {
+        if (Value != null)
+        {
+            newDoc = Value;
+            isNew = false;
+        }
+    }
+
     private async void HandleSubmit()
     {
-        await DocService.Add(newDoc);
-        newDoc = new Doc();
+        if (isNew)
+            await DocService.Add(Mapper.Map<Doc>(newDoc));
+        else
+            await DocService.Update(Mapper.Map<Doc>(newDoc));
+
+        Nav.NavigateTo($"docs/{newDoc.Url}");
     }
 }
