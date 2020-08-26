@@ -10,9 +10,6 @@
                 <a href="docs/@item.Url">
                     @item.Title
                 </a>
-                <a @onclick="@(() => Delete(item.Id))">
-                    (Delete)
-                </a>
             </li>
         }
     </ul>
@@ -26,11 +23,5 @@
         docs = (await DocService.GetAll())
             .Select(Mapper.Map<DocDto>)
             .ToList();
-    }
-
-    private async void Delete(int id)
-    {
-        await DocService.Delete(id);
-        docs.RemoveAll(d => d.Id == id);
     }
 }
