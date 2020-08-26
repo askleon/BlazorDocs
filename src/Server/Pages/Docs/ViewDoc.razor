@@ -1,24 +1,26 @@
 @page "/docs/{Url}"
-@inject DocService DocService
 @using Markdig
+@inject DocService DocService
+@inject NavigationManager Nav
 
-<div class="row">
-    <div class="col">
-        <h1>@doc.Title</h1>
+<div class="row mb-2">
+    <div class="col-md-3 col-xs-6 mb-1">
+        <PrimaryButton CssClass="btn-block" @onclick="Edit">Edit</PrimaryButton>
     </div>
-    <div class="col">
-        <a href="docs/edit/@Url">
-            Edit
-        </a>
+    <div class="col-md-2 col-xs-2">
+        <button class="btn btn-danger btn-block" @onclick="Delete">Delete</button>
     </div>
 </div>
 
-<div class="row">
-    
-    <div class="col">
+<div class="card">
+    <div class="card-header">
+        @doc.Title
+    </div>
+    <div class="card-body">
         @((MarkupString) Preview)
     </div>
 </div>
+
 
 
 @code {
@@ -31,5 +33,12 @@
     protected override async Task OnInitializedAsync()
     {
         doc = (await DocService.Get(Url));
+    }
+
+    private void Edit() => Nav.NavigateTo($"docs/edit/{doc.Url}");
+    private async void Delete()
+    {
+        await DocService.Delete(doc.Id);
+        Nav.NavigateTo("docs");
     }
 }
