@@ -35,7 +35,7 @@
         doc = (await DocService.Get(Url));
     }
 
-    private void Edit() => Nav.NavigateTo($"docs/edit/{doc.Url}");
+    private void Edit() => Nav.NavigateTo($"docs/{doc.Url}/edit");
     private async void Delete()
     {
         await DocService.Delete(doc.Id);
