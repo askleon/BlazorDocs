@@ -13,7 +13,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-6">
+        <div class="form-group col-md-6 col-xs-12">
             <label>Title</label>
             <input @bind="newDoc.Title" class="form-control"/>
             <ValidationMessage For="@(() => newDoc.Title)" />
@@ -21,7 +21,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-6">
+        <div class="form-group col-md-6 col-xs-12">
             <label>Url</label>
             <input @bind="newDoc.Url" class="form-control"/>
             <ValidationMessage For="@(() => newDoc.Url)" />
