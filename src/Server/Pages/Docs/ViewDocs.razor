@@ -1,10 +1,12 @@
 @page "/docs"
+@inject NavigationManager Nav
+
 
 <div class="row mb-4">
     <div class="col">
-        <a href="/docs/new">
-            Add a new document
-        </a>
+        <button class="btn btn-outline-primary" @onclick="NewDoc">
+            Add new document
+        </button>
     </div>
 </div>
 
@@ -13,3 +15,7 @@
         <DocList />
     </div>
 </div>
+
+@code {
+    private void NewDoc() => Nav.NavigateTo("docs/new");
+}
