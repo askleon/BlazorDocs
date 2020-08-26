@@ -10,10 +10,6 @@
         <div class="col-6">
             <h1>New document</h1>
         </div>
-
-        <div class="col-6">
-            <h1>Preview</h1>
-        </div>
     </div>
 
     <div class="row">
@@ -33,20 +29,27 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-6">
+        <div class="form-group col-md-6 col-xs-12">
             <label>Content</label>
-            <textarea @bind="newDoc.Content" class="form-control"/>
+            <textarea rows="10" @bind="newDoc.Content" class="form-control"/>
             <ValidationMessage For="@(() => newDoc.Content)" />
         </div>
 
-        <div class="col-6">
+        <div class="col-md-6 col-xs-12">
+            <label>Preview</label>
             <div class="card">
-                @((MarkupString) Preview)
+                <div class="card-body">
+                    @((MarkupString) Preview)
+                </div>
             </div>
         </div>
     </div>
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <div class="row mt-3 mb-3">
+        <div class="col-md-3 col-xs-12">
+            <button class="btn btn-primary btn-block" type="submit">Submit</button>
+        </div>
+    </div>
 
 </EditForm>
 
