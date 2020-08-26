@@ -12,6 +12,7 @@ namespace Server
             return IsPath(path);
         }
 
+        // @todo replace with regex match
         private bool IsPath(string path)
         {
             if (path.Length <= 0)
@@ -21,6 +22,8 @@ namespace Server
             else if(path.Contains('/'))
                 return false;
             else if(path.Contains('\\'))
+                return false;
+            else if(path.Contains('.'))
                 return false;
             else
                 return true;
