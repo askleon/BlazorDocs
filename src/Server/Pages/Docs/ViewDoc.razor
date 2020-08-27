@@ -2,6 +2,7 @@
 @using Markdig
 @inject DocService DocService
 @inject NavigationManager Nav
+@inject IMapper Mapper
 
 <div class="row mb-2">
     <div class="col-md-3 col-xs-6 mb-1">
@@ -12,14 +13,7 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">
-        @doc.Title
-    </div>
-    <div class="card-body">
-        @((MarkupString) Preview)
-    </div>
-</div>
+<DocMarkdown Doc="doc"></DocMarkdown>
 
 <ConfirmDialog @ref="confirmDelete"
     Title="Confirm
@@ -32,14 +26,14 @@
 @code {
     [Parameter] public string Url { get; set; }
 
-    private Doc doc = new Doc();
+    private DocDto doc = new DocDto();
     private ConfirmDialog confirmDelete;
 
     private string Preview => Markdown.ToHtml(doc.Content ?? "");
 
     protected override async Task OnInitializedAsync()
     {
-        doc = (await DocService.Get(Url));
+        doc = Mapper.Map<DocDto>((await DocService.Get(Url)));
     }
 
     private void Edit() => Nav.NavigateTo($"docs/{doc.Url}/edit");

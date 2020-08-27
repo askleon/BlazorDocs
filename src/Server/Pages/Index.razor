@@ -1,5 +1,33 @@
 ﻿@page "/"
+@using Markdig
+@using Server.Pages.Docs
 
-<h1>
-    Welcome to BlazorDocs!
-</h1>
+@inject DocService DocService
+@inject IMapper Mapper
+
+@if (readme != null)
+{
+    <DocMarkdown Doc="readme"></DocMarkdown>
+
+    <small class="text-muted">
+        The page content was created with a document using "readme" as url.
+    </small>
+}
+else
+{
+    <h1>
+        Welcome to BlazorDocs!
+    </h1>
+    <small>Create a doc with the url "readme" to change this page.</small>
+}
+
+@code {
+    private DocDto readme;
+
+    private string Preview => Markdown.ToHtml(readme.Content ?? "");
+
+    protected override async Task OnInitializedAsync()
+    {
+        readme = Mapper.Map<DocDto>((await DocService.Get("readme")));
+    }
+}
