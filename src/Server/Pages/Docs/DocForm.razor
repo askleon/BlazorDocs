@@ -13,31 +13,33 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-md-6 col-xs-12">
-            <label>Title</label>
-            <input @bind="newDoc.Title" class="form-control"/>
-            <ValidationMessage For="@(() => newDoc.Title)" />
-        </div>
-    </div>
+        <div class="col-md-6 col-xs-12">
 
-    <div class="row">
-        <div class="form-group col-md-6 col-xs-12">
-            <label>Url</label>
-            <input @bind="newDoc.Url" class="form-control"/>
-            <ValidationMessage For="@(() => newDoc.Url)" />
-        </div>
-    </div>
+            <div class="form-group">
+                <label>Title</label>
+                <input @bind="newDoc.Title" class="form-control"/>
+                <ValidationMessage For="@(() => newDoc.Title)" />
+            </div>
 
-    <div class="row">
-        <div class="form-group col-md-6 col-xs-12">
-            <label>Content</label>
-            <textarea rows="10" @bind="newDoc.Content" class="form-control"/>
-            <ValidationMessage For="@(() => newDoc.Content)" />
+            <div class="form-group">
+                <label>Url</label>
+                <input @bind="newDoc.Url" class="form-control"/>
+                <ValidationMessage For="@(() => newDoc.Url)" />
+            </div>
+
+            <div class="form-group">
+                <label>Content</label>
+                <textarea rows="10" @bind="newDoc.Content" class="form-control"/>
+                <ValidationMessage For="@(() => newDoc.Content)" />
+            </div>
+
         </div>
+
         <div class="col-md-6 col-xs-12">
             <label>Preview</label>
             <DocMarkdown Doc="newDoc"></DocMarkdown>
         </div>
+
     </div>
 
     <div class="row mt-3 mb-3">
