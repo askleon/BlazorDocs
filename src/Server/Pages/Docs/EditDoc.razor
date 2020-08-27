@@ -2,7 +2,7 @@
 @inject DocService DocService
 @inject IMapper Mapper
 
-<DocForm Value="doc"/>
+<DocForm Value="doc" Title="@($"Edit: {doc.Title}")"/>
 
 @code {
     [Parameter] public string Url { get; set; }
