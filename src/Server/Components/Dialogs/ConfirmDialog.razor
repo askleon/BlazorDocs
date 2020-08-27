@@ -1,0 +1,35 @@
+@inherits Dialog
+
+<Dialog @ref="dialog"
+    ShowBackdrop="ShowBackdrop"
+    Title="@Title"
+    OnCloseClick="@(() => Close(false))">
+
+    <DialogBody>
+        @ChildContent
+    </DialogBody>
+
+    <DialogFooter>
+        <button class="btn btn-secondary" @onclick="Cancel">@CancelTitle</button>
+        <button class="btn btn-primary" @onclick="Accept">@AcceptTitle</button>
+    </DialogFooter>
+
+</Dialog>
+
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string CancelTitle { get; set; } = "Cancel";
+    [Parameter] public string AcceptTitle { get; set; } = "Accept";
+    [Parameter] public EventCallback<bool> ConfirmationChanged { get; set ; }
+    
+    private Dialog dialog;
+    public override void Show() => dialog.Show();
+    protected void Cancel() => Close(false);
+    protected void Accept() => Close(true);
+    protected void Close(bool accepted)
+    {
+        ConfirmationChanged.InvokeAsync(accepted);
+        dialog.Close();
+    }
+}

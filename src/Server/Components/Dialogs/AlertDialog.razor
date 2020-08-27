@@ -1,0 +1,24 @@
+@inherits Dialog
+
+<Dialog @ref="dialog"
+    ShowBackdrop="ShowBackdrop"
+    OnCloseClick="Close"
+    Title="Title">
+
+    <DialogBody>
+        @Content
+    </DialogBody>
+    
+    <DialogFooter>
+        <button class="btn btn-primary" @onclick="@Close">Ok</button>
+    </DialogFooter>
+
+</Dialog>
+
+@code {
+    [Parameter] public string Content { get; set; }
+    private Dialog dialog;
+
+    public override void Show() => dialog.Show();
+    public override void Close() => dialog.Close();
+}
