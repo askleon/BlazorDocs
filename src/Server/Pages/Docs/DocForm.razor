@@ -34,14 +34,9 @@
             <textarea rows="10" @bind="newDoc.Content" class="form-control"/>
             <ValidationMessage For="@(() => newDoc.Content)" />
         </div>
-
         <div class="col-md-6 col-xs-12">
             <label>Preview</label>
-            <div class="card">
-                <div class="card-body">
-                    @((MarkupString) Preview)
-                </div>
-            </div>
+            <DocMarkdown Doc="newDoc"></DocMarkdown>
         </div>
     </div>
 
