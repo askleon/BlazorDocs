@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>blazor-docs-d941e6c5-056b-4f4e-a3bb-b846eaf38200</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
