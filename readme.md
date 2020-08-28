@@ -2,7 +2,7 @@
 1. Ef tool to work with database design: `dotnet tool install --global dotnet-ef`
 1. To create database: `dotnet ef database update -s ./src/server`
 
-### Docker setup
+### Docker setup for development
 
 *PS: As of currently, a database must exist in ./src/server/database.db for this project to work with docker*
 
