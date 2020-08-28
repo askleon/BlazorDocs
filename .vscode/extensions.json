@@ -1,5 +1,8 @@
 {
     "recommendations": [
-        "ms-dotnettools.csharp"
+        "ms-dotnettools.csharp",
+        "EditorConfig.EditorConfig",
+        "ms-azuretools.vscode-docker",
+        "fernandoescolar.vscode-solution-explorer"
     ]
 }
