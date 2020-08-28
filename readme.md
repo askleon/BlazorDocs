@@ -10,7 +10,7 @@
 
 > Replace `password` with a password
 1. Create a ssl certificate:
-   - `dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\BlazorDocs.pfx -p password`
+   - `dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\Server.pfx -p password`
 1. Add certificate password as dotnet secret:
    - `dotnet user-secrets set "Kestrel:Certificates:Development:Password" "password" -p ./src/server`
 1. Run with:
