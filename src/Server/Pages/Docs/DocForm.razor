@@ -4,7 +4,7 @@
 @inject NavigationManager Nav
 @inject DocEvents DocEvents
 
-<EditForm Model="newDoc" OnValidSubmit="HandleSubmit">
+<EditForm Model="editDoc" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
 
     <div class="row">
@@ -18,27 +18,27 @@
 
             <div class="form-group">
                 <label>Title</label>
-                <input @bind="newDoc.Title" class="form-control"/>
-                <ValidationMessage For="@(() => newDoc.Title)" />
+                <input @bind="editDoc.Title" class="form-control"/>
+                <ValidationMessage For="@(() => editDoc.Title)" />
             </div>
 
             <div class="form-group">
                 <label>Url</label>
-                <input @bind="newDoc.Url" class="form-control"/>
-                <ValidationMessage For="@(() => newDoc.Url)" />
+                <input @bind="editDoc.Url" class="form-control"/>
+                <ValidationMessage For="@(() => editDoc.Url)" />
             </div>
 
             <div class="form-group">
                 <label>Content</label>
-                <textarea rows="10" @bind="newDoc.Content" class="form-control"/>
-                <ValidationMessage For="@(() => newDoc.Content)" />
+                <textarea rows="10" @bind="editDoc.Content" class="form-control"/>
+                <ValidationMessage For="@(() => editDoc.Content)" />
             </div>
 
         </div>
 
         <div class="col-md-6 col-xs-12">
             <label>Preview</label>
-            <DocMarkdown Doc="newDoc"></DocMarkdown>
+            <DocMarkdown Doc="editDoc"></DocMarkdown>
         </div>
 
     </div>
@@ -55,16 +55,16 @@
     [Parameter] public DocDto Value { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
     [Parameter] public string Title { get; set; }
-    private DocDto newDoc = new DocDto();
+    private DocDto editDoc = new DocDto();
     private bool isNew = true;
 
-    private string Preview => Markdown.ToHtml(newDoc.Content ?? "");
+    private string Preview => Markdown.ToHtml(editDoc.Content ?? "");
 
     protected override void OnInitialized()
     {
         if (Value != null)
         {
-            newDoc = Value;
+            editDoc = Value;
             isNew = false;
         }
     }
@@ -73,15 +73,15 @@
     {
         if (isNew)
         {
-            var newDoc = await DocService.Add(Mapper.Map<Doc>(this.newDoc));
+            var newDoc = await DocService.Add(Mapper.Map<Doc>(editDoc));
             DocEvents.NewDoc(Mapper.Map<DocDto>(newDoc));
         }
         else
         {
-            await DocService.Update(Mapper.Map<Doc>(newDoc));
-            DocEvents.UpdateDoc(newDoc);
+            await DocService.Update(Mapper.Map<Doc>(editDoc));
+            DocEvents.UpdateDoc(editDoc);
         }
 
-        Nav.NavigateTo($"docs/{newDoc.Url}");
+        Nav.NavigateTo($"docs/{editDoc.Url}");
     }
 }
