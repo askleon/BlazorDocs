@@ -42,6 +42,9 @@ namespace Server
             services.AddTransient(typeof(Service<>));
             services.AddTransient<DocService>();
 
+            // Server services
+            services.AddSingleton<DocEvents>();
+
             // Automapper
             services.AddAutoMapper(c =>
             {
