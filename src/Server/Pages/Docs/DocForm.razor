@@ -2,6 +2,7 @@
 @inject Service<Doc> DocService
 @inject IMapper Mapper
 @inject NavigationManager Nav
+@inject DocEvents DocEvents
 
 <EditForm Model="newDoc" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
@@ -71,9 +72,15 @@
     private async void HandleSubmit()
     {
         if (isNew)
-            await DocService.Add(Mapper.Map<Doc>(newDoc));
+        {
+            var newDoc = await DocService.Add(Mapper.Map<Doc>(this.newDoc));
+            DocEvents.NewDoc(Mapper.Map<DocDto>(newDoc));
+        }
         else
+        {
             await DocService.Update(Mapper.Map<Doc>(newDoc));
+            DocEvents.UpdateDoc(newDoc);
+        }
 
         Nav.NavigateTo($"docs/{newDoc.Url}");
     }
