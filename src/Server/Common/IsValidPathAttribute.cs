@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Server
 {
@@ -9,24 +10,12 @@ namespace Server
         public override bool IsValid(object value)
         {
             var path = (string) value;
-            return IsPath(path);
+            return IsValidPathName(path);
         }
 
-        // @todo replace with regex match
-        private bool IsPath(string path)
+        private bool IsValidPathName(string path)
         {
-            if (path.Length <= 0)
-                return false;
-            else if (path.Contains(' '))
-                return false;
-            else if(path.Contains('/'))
-                return false;
-            else if(path.Contains('\\'))
-                return false;
-            else if(path.Contains('.'))
-                return false;
-            else
-                return true;
+           return Regex.IsMatch(path, @"^[a-zA-Z0-9_\-\&\+]+$");
         }
 
         public override string FormatErrorMessage(string name)
