@@ -3,6 +3,7 @@
 @inject DocService DocService
 @inject NavigationManager Nav
 @inject IMapper Mapper
+@inject DocEvents DocEvents
 
 <div class="row mb-2">
     <div class="col-md-3 col-xs-6 mb-1">
@@ -37,7 +38,7 @@
     }
 
     private void Edit() => Nav.NavigateTo($"docs/{doc.Url}/edit");
-    
+
     private void ConfirmDelete() => confirmDelete.Show();
 
     private void OnConfirmationChangedDelete(bool confirmed)
@@ -51,6 +52,7 @@
     private async void Delete()
     {
         await DocService.Delete(doc.Id);
+        DocEvents.DeletedDoc(doc);
         Nav.NavigateTo("docs");
     }
 }
