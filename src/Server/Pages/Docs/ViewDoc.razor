@@ -5,36 +5,55 @@
 @inject IMapper Mapper
 @inject DocEvents DocEvents
 
-<div class="row mb-2">
-    <div class="col-md-3 col-xs-6 mb-1">
-        <button class="btn btn-outline-primary btn-block" @onclick="Edit">Edit</button>
+@if (isDeleted)
+{
+    <NavLink class="nav-link" href="docs" Match="NavLinkMatch.All">
+        @doc.Title has been deleted, click me to go back to docs..
+     </NavLink>
+}
+else if (routeHasChanged)
+{
+    <NavLink class="nav-link" href="@($"docs/{doc.Url}")" @onclick="@(() => routeHasChanged = false)" Match="NavLinkMatch.All">
+         @doc.Title url has been changed, click me to go to the correct url..
+     </NavLink>
+}
+else
+{
+     <div class="row mb-2">
+        <div class="col-md-3 col-xs-6 mb-1">
+            <button class="btn btn-outline-primary btn-block" @onclick="Edit">Edit</button>
+        </div>
+        <div class="col-md-2 col-xs-2">
+            <button class="btn btn-outline-danger btn-block" @onclick="ConfirmDelete">Delete</button>
+        </div>
     </div>
-    <div class="col-md-2 col-xs-2">
-        <button class="btn btn-outline-danger btn-block" @onclick="ConfirmDelete">Delete</button>
-    </div>
-</div>
 
-<DocMarkdown Doc="doc"></DocMarkdown>
+    <DocMarkdown Doc="doc"></DocMarkdown>
 
-<ConfirmDialog @ref="confirmDelete"
-    Title="Confirm
-    deletion"
-    ShowBackdrop="true"
-    ConfirmationChanged="OnConfirmationChangedDelete">
-    Are you sure you want to delete this document?
-</ConfirmDialog>
+    <ConfirmDialog @ref="confirmDelete"
+        Title="Confirm
+        deletion"
+        ShowBackdrop="true"
+        ConfirmationChanged="OnConfirmationChangedDelete">
+        Are you sure you want to delete this document?
+    </ConfirmDialog>
+}
 
 @code {
     [Parameter] public string Url { get; set; }
 
     private DocDto doc = new DocDto();
     private ConfirmDialog confirmDelete;
+    private bool isDeleted = false;
+    private bool routeHasChanged = false;
 
     private string Preview => Markdown.ToHtml(doc.Content ?? "");
 
     protected override async Task OnInitializedAsync()
     {
         doc = Mapper.Map<DocDto>((await DocService.Get(Url)));
+        DocEvents.OnDeletedDoc += OnDeletedDoc;
+        DocEvents.OnUpdatedDoc += OnUpdatedDoc;
     }
 
     private void Edit() => Nav.NavigateTo($"docs/{doc.Url}/edit");
@@ -46,6 +65,30 @@
         if (confirmed)
         {
             Delete();
+        }
+    }
+
+    private async void OnDeletedDoc(DocDto dto)
+    {
+        if (doc?.Id == dto.Id)
+        {
+            isDeleted = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async void OnUpdatedDoc(DocDto dto)
+    {
+        if (doc?.Id == dto.Id)
+        {
+            doc = dto;
+
+            if (Url != dto.Url)
+            {
+                routeHasChanged = true;
+            }
+
+            await InvokeAsync(StateHasChanged);
         }
     }
 
