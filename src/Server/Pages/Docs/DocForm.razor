@@ -34,21 +34,15 @@
                 <ValidationMessage For="@(() => editDoc.Content)" />
             </div>
 
+            <button class="btn btn-primary btn-block mb-3" type="submit">Submit</button>
         </div>
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-12 mb-3">
             <label>Preview</label>
             <DocMarkdown Doc="editDoc"></DocMarkdown>
         </div>
 
     </div>
-
-    <div class="row mt-3 mb-3">
-        <div class="col-md-3 col-xs-12">
-            <button class="btn btn-primary btn-block" type="submit">Submit</button>
-        </div>
-    </div>
-
 </EditForm>
 
 @code {
